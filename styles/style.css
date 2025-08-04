@@ -44,6 +44,7 @@
 .card-list {
   display: grid;
   gap: 50px;
+  justify-items: center;
 }
 
 .card {
@@ -157,6 +158,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  outline: none;
+}
+
+.card__icon-button:focus-visible {
+  outline: 2px solid black;
 }
 
 .button {
@@ -167,9 +173,38 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: background-color 0.3s ease, color 0.5s ease;
   background-color: white;
   border: 2px solid var(--border-color, black);
+  transition:
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    color 0.5s ease;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0);
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: 2px 2px 0 var(--accent-color);
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+
+  transform: scale(0, 0.9);
+  transform-origin: left top;
+  transition: transform 0.5s ease-in-out;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.button:hover::before {
+  transform: scale(1, 1);
 }
 
 .card__like-button {
@@ -202,12 +237,16 @@
 .main__icon {
   width: 21px;
   height: 21px;
-  z-index: 2;
+  color: white;
+  mix-blend-mode: difference;
   position: relative;
-  fill: black;
+  z-index: 2;
+  transition: color 0.5s ease;
 }
+
 .modal {
   position: fixed;
+  width: 353px;
   inset: 0;
   display: none;
   padding: 0;
@@ -240,7 +279,7 @@
   flex-direction: row;
   align-items: center;
   margin: 30px 30px 0;
-  gap: 12px;
+  gap: 20px;
 }
 
 .modal__icon {
@@ -267,94 +306,60 @@
   text-align: center;
 }
 
-.button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  transform: translateX(-100%);
-  transition: transform 0.5s ease-in-out;
-  z-index: 1;
-}
-
-.button:hover::before {
-  transform: translateX(0);
-}
-
-.button:hover {
-  background: black;
-}
-
-.button:hover .button__text {
-  color: white;
-}
-
-.button:hover .main__icon {
-  fill: white;
-}
-
-.button:focus {
-  outline: none;
-  box-shadow: 2px 2px 0 var(--accent-color);
-}
-
-.card__icon-button:focus {
-  outline: none;
-}
-
-.card__icon-button:focus-visible {
-  border-color: var(--accent-color);
-}
 .like-icon {
   transform-origin: center;
   cursor: pointer;
 }
 
-.like-icon .contour {
-  fill: var(--contour-color);
-}
-
-.like-icon .core {
-  fill: transparent;
+.like-icon .contour,
+.like-icon .core,
+.like-icon .main-body {
   transition: fill 0.3s linear;
 }
 
-.like-icon .main-body {
+.like-icon .contour {
+  transition-duration: 0.1s;
+  transition-delay: 0s;
+}
+
+.like-icon .core {
+  transition-delay: 0.03s;
   fill: transparent;
-  transition: fill 0.3s linear 0.03s;
+}
+
+.like-icon .main-body {
+  transition-delay: 0s;
+  fill: transparent;
 }
 
 .like-icon:hover .core {
   fill: var(--contour-color);
-  transition-delay: 0.05s;
+  transition-delay: 0s;
 }
 
 .like-icon:hover .main-body {
   fill: var(--contour-color);
-  transition-delay: 0s;
+  transition-delay: 0.05s;
 }
 
 .like-icon:active .core {
   fill: var(--animation-fill-color);
-  transition-delay: 0.05s;
+  transition-delay: 0s;
 }
 
 .like-icon:active .main-body {
   fill: var(--animation-fill-color);
-  transition-delay: 0;
+  transition-delay: 0.05s;
 }
 
 .like-icon.is-liked .core {
   fill: var(--animation-fill-color);
-  transition: fill 0.3s linear 0s;
+  transition-delay: 0s;
 }
 
 .like-icon.is-liked .main-body {
   fill: var(--animation-fill-color);
-  transition: fill 0.3s linear 0.05s;
+  transition-delay: 0.05s;
 }
 
 .like-icon.is-liked .contour {
@@ -362,12 +367,18 @@
   transition: fill 0.3s linear 0.06s;
 }
 
-.like-icon.is-liked .heart {
-  animation: heart-scale 0.3s 0.1s ease-in both;
+.like-icon .sparks {
+  opacity: 0;
+  animation: none;
 }
 
-.like-icon.is-liked .sparks {
-  animation: sparks-visibility 0.3s 0.3s ease-in forwards;
+.like-icon.is-liked:not(.replayed) .sparks {
+  animation: sparks-visibility 0.3s ease-in 0.6s forwards;
+}
+
+.like-icon.is-liked .heart {
+  animation: heart-scale 0.3s ease-in 0.1s forwards;
+  transform-origin: center;
 }
 
 @media (width < 376px) {
@@ -386,5 +397,15 @@
     width: 28px;
     height: 28px;
   }
+  .modal {
+    position: fixed;
+    width: 341px;
+  }
+  .modal__row {
+    margin: 30px 0 0 40px;
+  }
+  .modal__button {
+    width: 261px;
+    margin: 30px 40px;
+  }
 }
-
