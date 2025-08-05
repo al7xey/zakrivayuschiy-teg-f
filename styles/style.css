@@ -373,7 +373,7 @@
 }
 
 .like-icon.is-liked:not(.replayed) .sparks {
-  animation: sparks-visibility 0.3s ease-in 0.6s forwards;
+  animation: sparks-visibility 0.3s ease-in 0.3s forwards;
 }
 
 .like-icon.is-liked .heart {
