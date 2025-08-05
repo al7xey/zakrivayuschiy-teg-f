@@ -147,7 +147,7 @@
   align-items: center;
   justify-self: end;
   margin: 25px;
-  gap: 12px;
+  gap: 10px;
 }
 
 .card__icon-button {
@@ -196,15 +196,15 @@
   height: 100%;
   background: black;
 
-  transform: scale(0, 0.9);
-  transform-origin: left top;
+  transform: translateX(-100%);
+  transform-origin: left;
   transition: transform 0.5s ease-in-out;
   z-index: 1;
   pointer-events: none;
 }
 
 .button:hover::before {
-  transform: scale(1, 1);
+  transform: translateX(0);
 }
 
 .card__like-button {
@@ -402,10 +402,14 @@
     width: 341px;
   }
   .modal__row {
-    margin: 30px 0 0 40px;
+    margin: 30px 8px 0 40px;
+    
+  }
+  .modal__title {
+    padding-right: 32px;
   }
   .modal__button {
-    width: 261px;
+    width: 262px;
     margin: 30px 40px;
   }
 }
